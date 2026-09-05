@@ -1,0 +1,248 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Viva Examiner - Hackathon Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .pulse-ring {
+            animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col">
+
+    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="p-2 bg-indigo-600/20 text-indigo-400 rounded-lg border border-indigo-500/30">
+                <i class="fa-solid fa-graduation-cap text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-lg font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">ProjectForge AI</h1>
+                <p class="text-xs text-slate-400">Mock Viva Examination Suite</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full text-emerald-400 text-xs font-semibold">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Live Examiner Active
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <div class="lg:col-span-4 bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col items-center text-center shadow-xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+            
+            <div class="relative my-4">
+                <div id="avatarRing" class="w-28 h-28 rounded-full bg-gradient-to-tr from-indigo-500 to-cyan-400 p-1 flex items-center justify-center transition-all duration-300">
+                    <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center overflow-hidden relative">
+                        <i class="fa-solid fa-user-gear text-4xl text-indigo-400"></i>
+                    </div>
+                </div>
+                <span class="absolute bottom-1 right-1 bg-indigo-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">AI</span>
+            </div>
+
+            <h2 class="text-xl font-bold text-slate-200">Dr. AI Roy</h2>
+            <p class="text-xs text-slate-400 mb-4">Strict Technical Examiner (AI Specialist)</p>
+
+            <div class="w-full bg-slate-950/60 border border-slate-800 rounded-xl p-3 text-left mb-auto text-xs space-y-1">
+                <p class="text-slate-500 font-semibold">PROJECT UNDER TEST:</p>
+                <p class="text-indigo-300 font-bold" id="projectTitle">Distributed E-Commerce API</p>
+                <p class="text-slate-400">Tech Stack: Python, Redis, Docker, PostgreSQL</p>
+            </div>
+
+            <div id="scoreSummary" class="w-full bg-slate-800/40 border border-slate-700/50 rounded-xl p-3 mt-4 text-xs hidden">
+                <p class="text-slate-400 font-semibold mb-2">LIVE EVALUATION</p>
+                <div class="flex justify-between items-center text-sm font-bold">
+                    <span>Overall Viva Score:</span>
+                    <span id="vivaScore" class="text-emerald-400 text-base">8.5 / 10</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-8 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col shadow-xl overflow-hidden">
+            
+            <div class="bg-slate-950/80 p-5 border-b border-slate-800">
+                <div class="flex items-center justify-between mb-2">
+                    <span id="questionNum" class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Question 1 of 3</span>
+                    <span class="text-xs bg-red-500/10 text-red-400 border border-red-500/20 px-2 py-0.5 rounded">Difficulty: High</span>
+                </div>
+                <h3 id="currentQuestion" class="text-base md:text-lg font-semibold text-slate-100">
+                    "Aapne project me Caching ke liye Redis use kiya hai. Agar Redis server Suddenly crash ho jaye, toh system ka failover mechanism kaise handle hoga?"
+                </h3>
+            </div>
+
+            <div id="chatBox" class="flex-1 p-4 overflow-y-auto space-y-4 min-h-[250px] max-h-[350px]">
+                </div>
+
+            <div class="p-4 bg-slate-950/80 border-t border-slate-800 space-y-3">
+                <div class="flex items-center gap-2">
+                    <input type="text" id="userInput" placeholder="Type your answer or click mic to speak..." 
+                        class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 text-slate-200">
+                    
+                    <button id="micBtn" onclick="toggleVoice()" class="p-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl border border-slate-700 transition flex items-center justify-center">
+                        <i class="fa-solid fa-microphone text-lg"></i>
+                    </button>
+
+                    <button onclick="submitAnswer()" class="px-5 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-medium text-sm transition flex items-center gap-2">
+                        <span>Submit</span>
+                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                    </button>
+                </div>
+                
+                <div class="flex justify-between items-center text-[11px] text-slate-500 px-1">
+                    <span id="statusText"><i class="fa-solid fa-circle-info mr-1"></i> Speak clearly or type in technical detail for better scoring.</span>
+                    <span class="text-slate-400">Audio Synthesis: Active</span>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        const vivaData = [
+            {
+                q: "Aapne project me Caching ke liye Redis use kiya hai. Agar Redis server Suddenly crash ho jaye, toh system ka failover mechanism kaise handle hoga?",
+                goodAnswers: ["cache aside", "fallback", "database load", "replication", "sentinel"],
+                feedbackGood: "Impressive! Aapko fallback logic aur cache failover ki achhi understanding hai.",
+                feedbackBad: "Thoda weak answer tha. Cache crash par Database overload se bachne ke liye Cache-Aside Pattern aur Circuit Breakers zaroori hain."
+            },
+            {
+                q: "PostgreSQL Database me indexing use ki hai aapne? Mujhe B-Tree Indexing ka exact benefit batao query optimization ke liye.",
+                goodAnswers: ["b-tree", "logarithmic", "o(log n)", "binary", "search time"],
+                feedbackGood: "Spot on! Time complexity O(log N) explain karna solid point tha.",
+                feedbackBad: "Indexing query lookup time kam karti hai by avoiding Full Table Scans. Technical terms like O(log N) mention karein."
+            }
+        ];
+
+        let currentQIndex = 0;
+        let isRecording = false;
+        let recognition = null;
+
+        // Initialize Speech Recognition if supported
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('userInput').value = transcript;
+                toggleVoice(); // Stop UI pulse
+            };
+
+            recognition.onerror = () => toggleVoice();
+        }
+
+        function toggleVoice() {
+            const micBtn = document.getElementById('micBtn');
+            const statusText = document.getElementById('statusText');
+
+            if (!isRecording) {
+                if (recognition) recognition.start();
+                isRecording = true;
+                micBtn.classList.add('bg-red-600', 'text-white', 'pulse-ring');
+                statusText.innerText = "Listening... Speak your answer now.";
+            } else {
+                if (recognition) recognition.stop();
+                isRecording = false;
+                micBtn.classList.remove('bg-red-600', 'text-white', 'pulse-ring');
+                statusText.innerText = "Voice input stopped.";
+            }
+        }
+
+        function submitAnswer() {
+            const inputField = document.getElementById('userInput');
+            const text = inputField.value.trim();
+            if (!text) return;
+
+            // Render User Response
+            appendChat('Student', text, 'user');
+            inputField.value = '';
+
+            // AI Professor Evaluation Processing
+            document.getElementById('avatarRing').classList.add('animate-pulse');
+            
+            setTimeout(() => {
+                evaluateResponse(text);
+                document.getElementById('avatarRing').classList.remove('animate-pulse');
+            }, 1200);
+        }
+
+        function evaluateResponse(userAnswer) {
+            const q = vivaData[currentQIndex];
+            const lowerAns = userAnswer.toLowerCase();
+            const isGood = q.goodAnswers.some(keyword => lowerAns.includes(keyword));
+
+            const feedback = isGood ? q.feedbackGood : q.feedbackBad;
+            const score = isGood ? "Score Added: +3.0" : "Score Added: +1.0";
+
+            // Render Feedback
+            appendChat('Dr. AI Roy (Feedback)', `${feedback} (${score})`, 'ai');
+
+            // Move to Next Question or Finish
+            currentQIndex++;
+            if (currentQIndex < vivaData.length) {
+                setTimeout(() => {
+                    document.getElementById('questionNum').innerText = `Question ${currentQIndex + 1} of 3`;
+                    document.getElementById('currentQuestion').innerText = `"${vivaData[currentQIndex].q}"`;
+                    speakText(vivaData[currentQIndex].q);
+                }, 1500);
+            } else {
+                document.getElementById('scoreSummary').classList.remove('hidden');
+                appendChat('Dr. AI Roy', 'Viva Session Complete! Aapki report dashboard par update ho gayi hai.', 'ai');
+            }
+        }
+
+        function appendChat(sender, text, type) {
+            const chatBox = document.getElementById('chatBox');
+            const msgDiv = document.createElement('div');
+            
+            if (type === 'user') {
+                msgDiv.className = 'flex flex-col items-end';
+                msgDiv.innerHTML = `
+                    <div class="bg-indigo-600 text-slate-100 rounded-2xl rounded-tr-none px-4 py-2.5 max-w-[85%] text-xs shadow">
+                        <p class="font-bold text-[10px] text-indigo-200 mb-0.5">YOU</p>
+                        <p>${text}</p>
+                    </div>
+                `;
+            } else {
+                msgDiv.className = 'flex flex-col items-start';
+                msgDiv.innerHTML = `
+                    <div class="bg-slate-800 border border-slate-700 text-slate-200 rounded-2xl rounded-tl-none px-4 py-2.5 max-w-[85%] text-xs shadow">
+                        <p class="font-bold text-[10px] text-cyan-400 mb-0.5">${sender}</p>
+                        <p>${text}</p>
+                    </div>
+                `;
+                speakText(text);
+            }
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Stop ongoing speech
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 1.0;
+                utterance.pitch = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Enter key shortcut
+        document.getElementById('userInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') submitAnswer();
+        });
+    </script>
+</body>
+</html>
