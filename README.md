@@ -2,7 +2,7 @@
 
 > From Idea to Viva in 60 Seconds - End-to-End Final Year Project Solution
 
-### 🚀 Live Demo: https://ai-examiner.vercel.app
+### 🚀 Live Demo: https://ai-examiner-gray.vercel.app
 ### 📹 Video Demo: [Add Your YouTube Link Here]
 
 ### The Problem
