@@ -1,26 +1,48 @@
-# FinalForge AI - Final Year Project Generator & Mentor
+# 🎓 FinalForge AI - Project Idea Generator + AI Viva Examiner
 
-> From Idea to Viva in 60 Seconds
+> From Idea to Viva in 60 Seconds - End-to-End Final Year Project Solution
 
-### 🚀 Live Demo: [Vercel Link Yaha Dalna]
-### 📹 Video Demo: [YouTube Link]
+### 🚀 Live Demo: https://ai-examiner.vercel.app
+### 📹 Video Demo: [Add Your YouTube Link Here]
 
-## Problem
-90% students ka final year project copy hota hai, tech stack samajh nahi aata, aur beech me atak jata hai.
+### The Problem
+90% students face 3 problems:
+1.  Final year project idea copy-paste hota hai, novelty nahi hai
+2.  Tech stack aur roadmap ka pata nahi, beech me project atak jata hai
+3.  Viva me fail ho jate hain kyunki practice nahi hoti
 
-## Solution
-AI-powered platform jo deta hai:
-- Novelty Score ke sath 3 Unique Ideas
-- Tech Stack + MVP vs Advanced Features
-- 6 Week Roadmap
-- AI Mentor Chatbot (error fix)
-- 1-Click PPT + Synopsis Generator
+### Our Solution
+We built an All-in-One AI platform:
 
-## Tech Stack
-Frontend: HTML, CSS, JS | Backend: Python Flask | AI: Gemini API + RAG | PPT: python-pptx
+**1. AI Project Idea Generator**
+- Interest + Skills daalo (e.g. Healthcare, Python)
+- AI Novelty Score (95%), Tech Stack, MVP vs Advanced Features deta hai
+- 6 Week Development Roadmap
 
-## How to Run (VS Code)
-pip install -r requirements.txt
-python app.py
+**2. AI Viva Examiner (Our USP)**
+- Dr. AI Roy - Strict Technical Examiner
+- Voice-to-Voice Viva Practice (Speech Recognition + Text-to-Speech)
+- Real-time Scoring & Feedback
+- Project-Based Questions (Redis, B-Tree, Docker Scaling etc.)
+- Final Viva Report Card
 
-## Team: traj36480-star
+### ✨ Key Features
+- 🎙️ Voice Input & Voice Output - Real Viva Experience
+- 📊 Live Evaluation Score (8.5/10)
+- 📝 Dynamic Project Testing - Apna khud ka project naam daalo
+- 💾 Download Viva Report
+- 🌗 Premium Dark UI with Tailwind CSS
+
+### 🛠️ Tech Stack
+- **Frontend:** HTML5, Tailwind CSS, JavaScript, Font Awesome
+- **AI:** Web Speech API (STT & TTS), Gemini API (for real evaluation)
+- **Deployment:** Vercel / GitHub Pages
+
+### 🚀 How to Run Locally
+Just open the file, no installation needed!
+```bash
+# Clone repo
+git clone https://github.com/traj36480-star/AI-Examiner.git
+
+# Run
+Open AI Examiner.html in browser
